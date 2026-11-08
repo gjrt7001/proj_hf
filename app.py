@@ -1,3 +1,7 @@
+"""
+streamlit run app.py
+"""
+
 import streamlit as st
 
 # 核心：從你的 src 資料夾匯入各分頁的渲染函式
@@ -7,7 +11,7 @@ from proj_hf.streamlit.page1_2_source import render_source
 from proj_hf.streamlit.page2_1_popular import render_popular
 from proj_hf.streamlit.page2_2_download import render_download
 from proj_hf.streamlit.page2_3_likes import render_likes
-from proj_hf.streamlit.page3_1_aboutme import render_aboutme
+from proj_hf.streamlit.page3_1_about import render_about
 
 st.set_page_config(page_title="HF數據研究專題", layout="wide")
 
@@ -15,7 +19,7 @@ st.set_page_config(page_title="HF數據研究專題", layout="wide")
 # 1. 定義多頁面物件 (將函式包裝成 st.Page)
 # ==============================================================================
 # 基本頁面
-page_home = st.Page(render_home, title="專題首頁 / 簡介", icon="✨", default=True)
+page_home = st.Page(render_home, title="專題首頁 / 簡介", icon="💡", default=True)
 page_hf = st.Page(render_hf, title="介紹Hugging Face網站", icon="🤗")
 page_source = st.Page(render_source, title="資料來源與說明", icon="📚")
 
@@ -25,7 +29,7 @@ page_download = st.Page(render_download, title="AI模型與任務關係-下載",
 page_likes = st.Page(render_likes, title="AI模型與任務關係-按讚", icon="👍")
 
 # 其他頁面
-page_aboutme = st.Page(render_aboutme, title="關於我", icon="😉")
+page_aboutme = st.Page(render_about, title="關於我", icon="😉")
 
 
 # ==============================================================================
