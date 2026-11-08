@@ -1,64 +1,56 @@
-"""
-*****************************************
-*
-* 使用 streamlit run app.py 執行程式
-* 使用 Ctrl + Shift + P 打開命令面板
-* 輸入 Simple Browser 並貼上網址 http://localhost:8501 ，按下enter
-* 終端機輸入 Ctrl + C 關閉預覽
-*
-*****************************************
-"""
-
-import sys
-from pathlib import Path
-
 import streamlit as st
 
-PROJECT_ROOT = Path(__file__).resolve().parent
-SRC_DIR = PROJECT_ROOT / "src"
+# 核心：從你的 src 資料夾匯入各分頁的渲染函式
+from src.proj_hf.streamlit.home import render_home
+from src.proj_hf.streamlit.page1_hugging_face import render_hf
+from src.proj_hf.streamlit.page2_popular import render_popular
+from proj_hf.streamlit.page3_download import render_download
+from proj_hf.streamlit.page4_likes import render_likes
+from proj_hf.streamlit.page5_aboutme import render_aboutme
 
-for candidate in (PROJECT_ROOT, SRC_DIR):
-    candidate_str = str(candidate)
-    if candidate_str not in sys.path:
-        sys.path.insert(0, candidate_str)
+st.set_page_config(page_title="HF數據研究專題", layout="wide")
 
-from proj_hf.templates import base_template, footer_template, page_layout
+# ==============================================================================
+# SIDEBAR (側邊欄控制台) - 留在主程式
+# ==============================================================================
+st.sidebar.title("🤗 Hugging Face數據分析")
 
+page = st.sidebar.radio(
+    "請選擇分析主題：",
+    [
+        "🏠 專題首頁 / 簡介",
+        "🤗 介紹Hugging Face網站",
+        "📊 1.熱門模型與下載/按讚關係",
+        "🚩 2.AI模型與任務關係-下載",
+        "👍 3.AI模型與任務關係-按讚",
+        "😉 關於我"
+    ]
+)
 
-# 🚀 1. 套用基礎樣板，並自訂該頁標題
-base_template(title="銷售數據統計看板")
+st.sidebar.markdown("---")
+# 這裡還可以放全域篩選器（如日期、時間、模型大小滑桿）
+# selected_date = st.sidebar.multiselect(...)
 
-# 🚀 2. 這一頁自己獨有的內容
-st.write("這裡擺放 Power BI 報表或 SQL 查詢表格...")
-st.bar_chart({"data": [10, 20, 30, 40]})
+# ==============================================================================
+# 路由邏輯：根據 Sidebar 的選擇，去執行對應資料夾內的功能
+# ==============================================================================
+if page == "🏠 專題首頁 / 簡介":
+    render_home()
 
+elif page == "🤗 介紹Hugging Face網站":
+    render_hf() 
 
-
-
-# 主頁內容
-st.title("hello")
-
-st.divider(width="stretch")
-
-# 🎯 直接讀取 static 資料夾下的個人照片
-st.image("static/images/1001.jpg", width=200, caption="我是專案開發者")
-
-
-
-"""
-# 🎯 像 Flask block 一樣，把所有內容包在 with 裡面
-with page_layout(title="SQL 即時查詢頁面"):
+elif page == "📊 1.熱門模型與下載/按讚關係":
+    render_popular()
     
-    st.write("請輸入查詢條件：")
-    user_input = st.text_input("輸入用戶 ID")
-    
-    if st.button("查詢"):
-        st.success(f"正在查詢：{user_input}")
-"""
+elif page == "🚩 2.AI模型與任務關係-下載":
+    render_download()
 
+elif page == "👍 3.AI模型與任務關係-按讚":
+    render_likes()    
 
-# 🚀 3. 套用頁尾樣板
-footer_template()
+elif page == "😉 關於我":  
+    render_aboutme()
 
-
-
+else:
+    st.error("未知的頁面選擇，請聯絡開發者。")
