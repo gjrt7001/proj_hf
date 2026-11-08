@@ -2,55 +2,51 @@ import streamlit as st
 
 # 核心：從你的 src 資料夾匯入各分頁的渲染函式
 from src.proj_hf.streamlit.home import render_home
-from src.proj_hf.streamlit.page1_hugging_face import render_hf
-from src.proj_hf.streamlit.page2_popular import render_popular
-from proj_hf.streamlit.page3_download import render_download
-from proj_hf.streamlit.page4_likes import render_likes
-from proj_hf.streamlit.page5_aboutme import render_aboutme
+from proj_hf.streamlit.page1_1_hugging_face import render_hf
+from proj_hf.streamlit.page1_2_source import render_source
+from proj_hf.streamlit.page2_1_popular import render_popular
+from proj_hf.streamlit.page2_2_download import render_download
+from proj_hf.streamlit.page2_3_likes import render_likes
+from proj_hf.streamlit.page3_1_aboutme import render_aboutme
 
 st.set_page_config(page_title="HF數據研究專題", layout="wide")
 
 # ==============================================================================
-# SIDEBAR (側邊欄控制台) - 留在主程式
+# 1. 定義多頁面物件 (將函式包裝成 st.Page)
 # ==============================================================================
+# 基本頁面
+page_home = st.Page(render_home, title="專題首頁 / 簡介", icon="✨", default=True)
+page_hf = st.Page(render_hf, title="介紹Hugging Face網站", icon="🤗")
+page_source = st.Page(render_source, title="資料來源與說明", icon="📚")
+
+# 數據分析類別底下的子頁面
+page_popular = st.Page(render_popular, title="熱門模型與下載/按讚關係", icon="📊")
+page_download = st.Page(render_download, title="AI模型與任務關係-下載", icon="🚩")
+page_likes = st.Page(render_likes, title="AI模型與任務關係-按讚", icon="👍")
+
+# 其他頁面
+page_aboutme = st.Page(render_aboutme, title="關於我", icon="😉")
+
+
+# ==============================================================================
+# 2. 設定有質感的側邊欄分組導覽 (st.navigation)
+# ==============================================================================
+# 透過字典結構，Key 就是分類名稱，Value 就是該分類底下的頁面清單
+pg = st.navigation({
+    "🏠 首頁與簡介": [page_home, page_hf, page_source],
+    "📈 數據分析專區": [page_popular, page_download, page_likes],
+    "📫聯絡資訊": [page_aboutme]
+})
+
+
+# ==============================================================================
+# 3. 渲染全域側邊欄元件與執行頁面
+# ==============================================================================
+# 你依然可以在側邊欄放標題、Logo 或全域篩選器
 st.sidebar.title("🤗 Hugging Face數據分析")
-
-page = st.sidebar.radio(
-    "請選擇分析主題：",
-    [
-        "🏠 專題首頁 / 簡介",
-        "🤗 介紹Hugging Face網站",
-        "📊 1.熱門模型與下載/按讚關係",
-        "🚩 2.AI模型與任務關係-下載",
-        "👍 3.AI模型與任務關係-按讚",
-        "😉 關於我"
-    ]
-)
-
 st.sidebar.markdown("---")
-# 這裡還可以放全域篩選器（如日期、時間、模型大小滑桿）
-# selected_date = st.sidebar.multiselect(...)
 
-# ==============================================================================
-# 路由邏輯：根據 Sidebar 的選擇，去執行對應資料夾內的功能
-# ==============================================================================
-if page == "🏠 專題首頁 / 簡介":
-    render_home()
+# 這裡可以放你的全域篩選器（例如：selected_date = st.sidebar.multiselect(...)）
 
-elif page == "🤗 介紹Hugging Face網站":
-    render_hf() 
-
-elif page == "📊 1.熱門模型與下載/按讚關係":
-    render_popular()
-    
-elif page == "🚩 2.AI模型與任務關係-下載":
-    render_download()
-
-elif page == "👍 3.AI模型與任務關係-按讚":
-    render_likes()    
-
-elif page == "😉 關於我":  
-    render_aboutme()
-
-else:
-    st.error("未知的頁面選擇，請聯絡開發者。")
+# 啟動導覽路由（會自動執行當前被點選頁面的 render 函式）
+pg.run()

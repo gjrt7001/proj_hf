@@ -26,11 +26,14 @@ def render_home():
     st.subheader("🎯 本研究旨在回答以下核心問題：")
     col1, col2, col3 = st.columns(3)
     with col1:
-        st.markdown("#### 📈 趨勢指標\n哪些 AI 任務（如 Text-Gen, Text-to-Image）在 2026 年最具備爆發性成長？")
+        st.markdown("### 📈 趨勢指標")
+        st.info("哪些 AI 任務（如 Text-Gen, Text-to-Image）在 2026 年最具備爆發性成長？")
     with col2:
-        st.markdown("#### 🏢 生態分佈\n個人開發者與大型企業組織（如 Google, Meta）在模型釋出上的行為有何不同？")
+        st.markdown("### 🏢 生態分佈")
+        st.info("個人開發者與大型企業組織（如 Google, Meta）在模型釋出上的行為有何不同？")
     with col3:
-        st.markdown("#### 📊 關聯分析\n模型的下載量、按讚數與其參數大小（Model Size）之間是否存在顯著關聯？")
+        st.markdown("### 📊 關聯分析")
+        st.info("模型的下載量、按讚數與其參數大小（Model Size）之間是否存在顯著關聯？")
 
     st.markdown("---")
 
@@ -38,8 +41,8 @@ def render_home():
     st.subheader("🛠️ 資料來源與研究方法")
     st.markdown("""
     * **數據來源**：透過 Hugging Face 官方 API 觀測與抓取 2026 年 2 月至 9 月之模型動態數據。
-    * **數據規模**：包含前 20 大熱門模型、數十種 AI 任務分類，累積超過 **50億次** 的下載紀錄。
-    * **專題架構**：`資料爬取` $\rightarrow$ `Pandas / SQL 資料清洗` $\rightarrow$ `Power BI 趨勢洞察` $\rightarrow$ `Streamlit 互動式儀表板`。
+    * **數據規模**：包含 2300 個模型取前 20 大熱門模型、數十種 AI 任務分類，累積超過 **21萬筆** 數據。
+    * **專題架構**：kaggle抓取  /  Hugging Face API 資料抓取  /  SQL 資料清洗  /  Power BI 趨勢洞察  /  Streamlit 專題介紹。
     """)
 
     st.markdown("---")
