@@ -1,11 +1,11 @@
 # 🤗 Hugging Face 數據研究專題
 
-[![Streamlit App](https://streamlit.io)](https://streamlit.app)
+<!-- [![Streamlit App](https://streamlit.io)](https://streamlit.app) -->
 
 本專題透過對 **Hugging Face** 平台上的 AI 模型數據進行深入清洗與分析，探討熱門 AI 模型的發展趨勢、任務分類（Pipeline）與社群指標（下載量、按讚數）之間的關聯性。
 
 ## 🌐 專題展示網站
-* **線上體驗網址**：[https://streamlit.app](https://streamlit.app)
+* **線上體驗網址**：[https://myproject-huggingface77.streamlit.app/](https://myproject-huggingface77.streamlit.app/)
 
 ---
 
@@ -39,12 +39,20 @@ proj_hf/
 ├─ .streamlit/
 │  ├─ config.toml       # ⚙️ 啟用靜態資料夾功能
 │  └─ secrets.toml       # 🔏 資料庫敏感資訊加密設定
-├─ data/
-│  └─ origin_csv/        # 📁 大數據來源 (由於檔案體積過大未上傳)
+├─ data/                  # 📁 大數據來源
+│  ├─ 1_dim_author.cs        # 模型作者，屬於公司/個人
+│  ├─ 2_dim_pipeline_tag.csv        # 模型任務目標，(輸入什麼東西，產出什麼東西)
+│  ├─ 3_dim_library.csv         # 模型公開或私人，模型使用的底層框架
+│  ├─ 4_dim_model.csv         # 所有模型的基本資料，包含模型名稱、作者、製作日期、最後更新日期、模型類別、任務、大小、總按讚數、總下載數
+│  ├─ 6_fact_snapshot.csv   # 模型快照，包含模型、作者、任務目標類型、製作日期、當日按讚數、30天的滾動下載
+│  ├─ 7_fact_model_totals.csv   # 統計了所有模型的按讚數和下載數
+│  └─ 9_dim_date.csv   # 時間維度表
 ├─ src/
 │  └─ proj_hf/
-│     ├─ clear/          # 🛀 資料清洗與前處理程式
-│     ├─ connect_db/     # 🔗 資料庫連線模組
+│     ├─ clear/          # 🛀 將原始csv做資料清洗與前處理程式
+│     ├─ streamlit/      # 🌐 專題頁面資料夾
+│     ├─ clear.py      # 清除畫面
+│     ├─ get_root.py      # 取得專案根目錄的路徑
 │     └─ templates.py    # 🎨 網頁全域公共樣板 (頁首、頁尾)
 ├─ static/
 │  └─ images/           # 🖼️ 網頁靜態圖片資源
