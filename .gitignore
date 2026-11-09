@@ -9,7 +9,7 @@
 data/origin_csv/
 data/sql/
 docs/
-src/connect_db/
+src/proj_hf/connect_db/
 static/css/
 static/js/
 
