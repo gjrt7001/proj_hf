@@ -37,8 +37,7 @@
 ```text
 proj_hf/
 ├─ .streamlit/
-│  ├─ config.toml       # ⚙️ 啟用靜態資料夾功能
-│  └─ secrets.toml       # 🔏 資料庫敏感資訊加密設定
+│  └─ config.toml       # ⚙️ 啟用靜態資料夾功能
 ├─ data/                  # 📁 大數據來源
 │  ├─ 1_dim_author.cs        # 模型作者，屬於公司/個人
 │  ├─ 2_dim_pipeline_tag.csv        # 模型任務目標，(輸入什麼東西，產出什麼東西)
