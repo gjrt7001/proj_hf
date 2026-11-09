@@ -61,12 +61,12 @@ proj_hf/
 
 1. **複製專案：**
    ```bash
-   git clone https://github.com
+   git clone [https://github.com/gjrt7001/proj_hf.git](https://github.com/gjrt7001/proj_hf.git)
    cd proj_hf
    ```
 
 2. **還原環境並啟動：**
    ```bash
    uv sync
-   uv run streamlit run app.py
+   streamlit run app.py
    ```
