@@ -68,5 +68,5 @@ proj_hf/
 2. **還原環境並啟動：**
    ```bash
    uv sync
-   streamlit run app.py
+   uv run streamlit run app.py
    ```
