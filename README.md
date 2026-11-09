@@ -1,6 +1,3 @@
-﻿
-
-```
 # 🤗 Hugging Face 數據研究專題
 
 [![Streamlit App](https://streamlit.io)](https://streamlit.app)
@@ -56,4 +53,20 @@ proj_hf/
 └─ uv.lock              # 🔒 套件鎖定檔
 ```
 
-```
+---
+
+## 💻 本地端快速啟動
+
+如果你想在本地環境執行本專案，請確保已安裝 [uv](https://github.com)，並依序執行以下指令：
+
+1. **複製專案：**
+   ```bash
+   git clone https://github.com
+   cd proj_hf
+   ```
+
+2. **還原環境並啟動：**
+   ```bash
+   uv sync
+   uv run streamlit run app.py
+   ```
