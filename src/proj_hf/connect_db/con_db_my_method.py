@@ -1,4 +1,5 @@
-import mariadb
+import contextlib
+import pymysql
 import os
 import subprocess
 import sys
@@ -9,7 +10,7 @@ def clear():
     return
 
 
-def connect_mariadb():
+def connect_pymysql():
     return
 
 
@@ -31,11 +32,11 @@ class db_:
     """測試連線"""
     def connect_db(self):
         try:
-            with mariadb.connect(**self.config) as conn:
+            with contextlib.closing(pymysql.connect(**self.config)) as conn:
                 with conn.cursor() as self.cursor:
-                    print("✅ MariaDB 原生驅動連線成功！")
+                    print("✅ PyMySQL 驅動連線成功！")
                 
-        except mariadb.Error as e:
+        except pymysql.Error as e:
             print(f"❌ 連線或查詢失敗：{e}")
             sys.exit(1)
 
@@ -44,11 +45,11 @@ class db_:
     def select(self, sql, *args):
         
         try:
-            with mariadb.connect(**self.config) as conn:
+            with contextlib.closing(pymysql.connect(**self.config)) as conn:
                 with conn.cursor() as cursor:
                     cursor.execute(sql, args)
                     return cursor.fetchall()    # fetchall翻譯是拿所有東西，也就是查詢結果，所以需要return
-        except mariadb.Error as e:
+        except pymysql.Error as e:
             print(f"❌ 連線或查詢失敗：{e}")
             sys.exit(1)
 
@@ -56,14 +57,14 @@ class db_:
     """處理INSERT、UPDATE、DELETE"""
     def execute(self, sql, *args):
             try:
-                with mariadb.connect(**self.config) as conn:
+                with contextlib.closing(pymysql.connect(**self.config)) as conn:
                     with conn.cursor() as cursor:
                         if not args:
                             cursor.execute(sql)
                         else:
                             cursor.execute(sql, args)
                         conn.commit()   # 新增、刪除、修改必須存檔才有用，所以要送出指令存檔的動作，存檔這個動作本身不需要return
-            except mariadb.Error as e:
+            except pymysql.Error as e:
                 print(f"❌ 連線或查詢失敗：{e}")
                 sys.exit(1)
 
@@ -83,7 +84,7 @@ if __name__ == "__main__":
     print("=============================")
 
 
-    # 這是用來登入maria db的帳號密碼
+    # 這是用來登入資料庫的帳號密碼
     uu = "root"
     pp = "root"
 

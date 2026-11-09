@@ -9,7 +9,7 @@
 #  ********************************************
 
 import contextlib  # 👈 引入 contextlib 模組，確保連線關閉
-import mariadb
+import pymysql
 import os
 import subprocess
 import sys
@@ -22,7 +22,7 @@ def clear():
 
 
 class db_:
-    """ 連接到 mariadb 的實作。  
+    """ 使用 PyMySQL 連接資料庫的實作。
         db_("id", "password", "db_name", "127.0.0.1", 3306)  ✅預設順序  
         db_("id", "password", "db_name")  ✅預設順序，host和port有預設值，所以可省略  
         db_(database="db_name", password="password", user="id")  ✅引數和參數有做對應就能無視順序  
@@ -47,11 +47,11 @@ class db_:
         print("\n\n=============================")
         print("連線測試...")
         try:
-            with contextlib.closing(mariadb.connect(**self.config)) as conn:
+            with contextlib.closing(pymysql.connect(**self.config)) as conn:
                 with conn.cursor() as self.cursor:
-                    print("✅ MariaDB 原生驅動連線成功！\n")
+                    print("✅ PyMySQL 驅動連線成功！\n")
                     return True
-        except mariadb.Error as e:
+        except pymysql.Error as e:
             print(f"❌ 連線或查詢失敗：{e}")
             # sys.exit(1) 這會強制關閉整個程式，實際上沒必要這麼做
             return False
@@ -62,7 +62,7 @@ class db_:
         print("\n\n=============================")
         print("使用SELECT查詢...")
         try:
-            with mariadb.connect(**self.config) as conn:
+            with contextlib.closing(pymysql.connect(**self.config)) as conn:
                 with conn.cursor() as cursor:
                     if not args:
                         cursor.execute(sql)
@@ -70,7 +70,7 @@ class db_:
                         cursor.execute(sql, args)
                     print("查詢結果如下\n")
                     return cursor.fetchall()    # fetchall翻譯是拿所有東西，也就是查詢結果，所以需要return
-        except mariadb.Error as e:
+        except pymysql.Error as e:
             print(f"❌ 連線或查詢失敗：{e}\n")
             return None
 
@@ -80,7 +80,7 @@ class db_:
             print("\n\n=============================")
             print("使用INSERT、UPDATE、DELETE語法...")
             try:
-                with contextlib.closing(mariadb.connect(**self.config)) as conn:
+                with contextlib.closing(pymysql.connect(**self.config)) as conn:
                     with conn.cursor() as cursor:
                         if not args:
                             cursor.execute(sql)
@@ -89,7 +89,7 @@ class db_:
                         conn.commit()   # 新增、刪除、修改必須存檔才有用，所以要送出指令存檔的動作，存檔這個動作本身不需要return
                         print("執行完成")
                         return True
-            except mariadb.Error as e:
+            except pymysql.Error as e:
                 print(f"❌ 連線或查詢失敗：{e}\n")
                 return False  # 👈 失敗時回傳 False
 
@@ -109,7 +109,7 @@ if __name__ == "__main__":
 # ---------------------------------------------------------------
 
 
-    # 這是用來登入maria db的帳號密碼
+    # 這是用來登入資料庫的帳號密碼
     uu = "root"
     pp = "root"
 

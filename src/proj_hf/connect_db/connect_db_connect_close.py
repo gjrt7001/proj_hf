@@ -10,7 +10,7 @@
 #  ********************************************
 
 
-import mariadb
+import pymysql
 import os
 import subprocess
 import sys
@@ -23,7 +23,7 @@ def clear():
 
 
 class db_:
-    """ 連接到 mariadb 的實作。  
+    """ 使用 PyMySQL 連接資料庫的實作。
         db_("id", "password", "db_name", "127.0.0.1", 3306)  ✅預設順序  
         db_("id", "password", "db_name")  ✅預設順序，host和port有預設值，所以可省略  
         db_(database="db_name", password="password", user="id")  ✅引數和參數有做對應就能無視順序  
@@ -53,11 +53,11 @@ class db_:
         print("\n\n=============================")
         print("開啟連線...")
         try:
-            self.conn = mariadb.connect(**self.config)
+            self.conn = pymysql.connect(**self.config)
             self.cursor = self.conn.cursor()
-            print("✅ MariaDB 原生驅動連線成功！")
+            print("✅ PyMySQL 驅動連線成功！")
                 
-        except mariadb.Error as e:
+        except pymysql.Error as e:
             print(f"❌ 連線或查詢失敗：{e}")
             sys.exit(1)
 
@@ -119,7 +119,7 @@ class db_:
                     cursor.execute(sql, args)
                 print("查詢結果如下\n")
                 return cursor.fetchall()    # fetchall翻譯是拿所有東西，也就是查詢結果，所以需要return
-            except mariadb.Error as e:
+            except pymysql.Error as e:
                 print(f"❌ 查詢失敗：{e}")
                 return None
 
@@ -142,7 +142,7 @@ class db_:
                     self.conn.commit()   # 新增、刪除、修改必須存檔才有用，所以要送出指令存檔的動作，存檔這個動作本身不需要return
                     print("執行完成")
                     return True     # 成功時回傳 True，讓主程式知道有成功寫入
-                except mariadb.Error as e:
+                except pymysql.Error as e:
                     self.conn.rollback() # ❌ 發生錯誤就自動回滾，維持資料一致
                     print(f"❌ 執行失敗，已回滾：{e}")
                     return False
@@ -163,7 +163,7 @@ if __name__ == "__main__":
 # ---------------------------------------------------------------
 
 
-    # 這是用來登入maria db的帳號密碼
+    # 這是用來登入資料庫的帳號密碼
     uu = "root"
     pp = "root"
 
