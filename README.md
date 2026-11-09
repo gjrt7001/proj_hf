@@ -61,7 +61,7 @@ proj_hf/
 
 1. **複製專案：**
    ```bash
-   git clone [https://github.com/gjrt7001/proj_hf.git](https://github.com/gjrt7001/proj_hf.git)
+   git clone https://github.com/gjrt7001/proj_hf.git
    cd proj_hf
    ```
 
